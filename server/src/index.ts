@@ -8,6 +8,11 @@ const app = express();
 
 const PORT = process.env.PORT || 4080;
 
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
+
 app.use(express.json());
 
 app.get('/health', (req: Request, res: Response) => {
@@ -17,12 +22,6 @@ app.get('/health', (req: Request, res: Response) => {
 app.get('/api/test', (req: Request, res: Response) => {
     res.json({ message: 'Hello world' });
 });
-
-
-app.use(cors({
-    origin: true,
-    credentials: true
-}));
 
 app.use(express.json());
 
