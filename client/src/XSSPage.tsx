@@ -24,7 +24,7 @@ function XSSPage() {
         <div>
             <h1>Reflected XSS demonstration page</h1>
             <p>Unsafe malicious user information handling below</p>
-            <p>enter: javascript:window.location.href='/evil-page'</p>
+            <p>enter: javascript:window.location.href='#/evil-page'</p>
             <input
                 value={userInput}
                 onChange={(event) => setUserInput(event.target.value)}
@@ -32,7 +32,7 @@ function XSSPage() {
             <button onClick={handleSubmit}>Submit</button>
 
             <p>Safe user input handling below</p>
-            <p>enter: javascript:window.location.href='/evil-page'</p>
+            <p>enter: javascript:window.location.href='#/evil-page'</p>
             <input
                 value={userInputSafe}
                 onChange={(event) => setUserInputSafe(event.target.value)}
