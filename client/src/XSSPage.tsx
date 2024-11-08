@@ -17,7 +17,7 @@ function XSSPage() {
 
     const handleSubmitSafe = () => {
         const sanitizedInput = userInputSafe.replace('javascript:', '');
-        setUserInputSafeEval('Sanitized user input: to value'  + sanitizedInput);
+        setUserInputSafeEval('Sanitized user input: '  + sanitizedInput);
     }
 
     return (
