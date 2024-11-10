@@ -15,6 +15,9 @@ function LoginDemonstrationPage() {
     const [safePassword, setSafePassword] = useState('');
     const [safeLoginMessage, setSafeLoginMessage] = useState('');
 
+    const [isVulnerable, setIsVulnerable] = useState(false);
+
+
     const handleRegister = async (event: any) => {
         event.preventDefault();
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/register`, {
@@ -82,59 +85,71 @@ function LoginDemonstrationPage() {
         <div>
             <h1>Broken Authentication demonstration page</h1>
             <div>
-                <p>Description: Unsafe login does not stop user from infinite login attempts, also gives too much information
-                <br/>to unauthenticated user such as 'Username does not exist', 'Invalid password'</p>
+                <p>Description: Unsafe login does not stop user from infinite login attempts, also gives too much
+                    information
+                    <br/>to unauthenticated user such as 'Username does not exist', 'Invalid password'</p>
                 <p>Instructions: <br/>1. Register user <br/>2. Try unsafe and safe login by entering wrong password</p>
                 <h3>Register</h3>
                 <form onSubmit={handleRegister}>
                     <label>
                         Username:
-                        <input type="text" value={registerUsername} onChange={(e) => setRegisterUsername(e.target.value)}/>
+                        <input type="text" value={registerUsername}
+                               onChange={(e) => setRegisterUsername(e.target.value)}/>
                     </label>
                     <label>
                         Password:
-                        <input type="password" value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)}/>
+                        <input type="password" value={registerPassword}
+                               onChange={(e) => setRegisterPassword(e.target.value)}/>
                     </label>
                     <button type="submit">Register</button>
                 </form>
                 <p>{registerMessage}</p>
             </div>
+            <div>
+                <input type="checkbox" checked={isVulnerable} onChange={(e) => setIsVulnerable(e.target.checked)}>
+                </input>
+                <span>Enable Broken authentication</span>
+            </div>
+            {isVulnerable ? (<div><h3>Unsafe Login</h3>
+                <div>
+                    <form onSubmit={handleUnsafeLogin}>
+                        <label>
+                            Username:
+                            <input type="text" value={unsafeUsername}
+                                   onChange={(e) => setUnsafeUsername(e.target.value)}/>
+                        </label>
+                        <label>
+                            Password:
+                            <input type="password" value={unsafePassword}
+                                   onChange={(e) => setUnsafePassword(e.target.value)}/>
+                        </label>
+                        <label>
+                            Login attempts: {loginAttempts}
+                        </label>
+                        <button type="submit">Login</button>
+                    </form>
+                    <p>{unsafeLoginMessage}</p>
+                </div>
+            </div>) : (<div><h3>Safe Login</h3>
+                <div>
+                    <form onSubmit={handleSafeLogin}>
+                        <label>
+                            Username:
+                            <input type="text" value={safeUsername} onChange={(e) => setSafeUsername(e.target.value)}/>
+                        </label>
+                        <label>
+                            Password:
+                            <input type="password" value={safePassword}
+                                   onChange={(e) => setSafePassword(e.target.value)}/>
+                        </label>
+                        <button type="submit">Login</button>
+                    </form>
+                    <p>{safeLoginMessage}</p>
+                </div>
+            </div>)}
 
-            <h3>Unsafe Login</h3>
-            <div>
-                <form onSubmit={handleUnsafeLogin}>
-                    <label>
-                        Username:
-                        <input type="text" value={unsafeUsername} onChange={(e) => setUnsafeUsername(e.target.value)}/>
-                    </label>
-                    <label>
-                        Password:
-                        <input type="password" value={unsafePassword} onChange={(e) => setUnsafePassword(e.target.value)}/>
-                    </label>
-                    <label>
-                        Login attempts: {loginAttempts}
-                    </label>
-                    <button type="submit">Login</button>
-                </form>
-                <p>{unsafeLoginMessage}</p>
-            </div>
-            <h3>Safe Login</h3>
-            <div>
-                <form onSubmit={handleSafeLogin}>
-                    <label>
-                        Username:
-                        <input type="text" value={safeUsername} onChange={(e) => setSafeUsername(e.target.value)}/>
-                    </label>
-                    <label>
-                        Password:
-                        <input type="password" value={safePassword} onChange={(e) => setSafePassword(e.target.value)}/>
-                    </label>
-                    <button type="submit">Login</button>
-                </form>
-                <p>{safeLoginMessage}</p>
-            </div>
             <br/>
-            <div> <Link to="/">Go to Home page</Link></div>
+            <div><Link to="/">Go to Home page</Link></div>
         </div>
     );
 }

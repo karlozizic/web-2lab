@@ -4,10 +4,11 @@ function XSSPage() {
     const [userInput, setUserInput] = useState('');
     const [userInputSafe, setUserInputSafe] = useState('');
     const [userInputSafeEval, setUserInputSafeEval] = useState('');
+    const [isVulnerable, setIsVulnerable] = useState(false);
 
     const handleSubmit = () => {
         try{
-            console.log('Evaluating user input:', userInput);
+            console.log('Evaluating user input: ', userInput);
             eval(userInput);
         }
         catch (error) {
@@ -26,22 +27,35 @@ function XSSPage() {
             <p>
                 Description: Not sanitizing user input is not safe, as users can inject JavaScript code that can be executed in other users' browsers.
             </p>
-            <h3>Unsafe malicious user information handling below</h3>
-            <p>enter: javascript:window.location.href='#/evil-page'</p>
-            <input
-                value={userInput}
-                onChange={(event) => setUserInput(event.target.value)}
-                placeholder="user input"/>
-            <button onClick={handleSubmit}>Submit</button>
-
-            <h3>Safe user input handling below</h3>
-            <p>enter: javascript:window.location.href='#/evil-page'</p>
-            <input
-                value={userInputSafe}
-                onChange={(event) => setUserInputSafe(event.target.value)}
-                placeholder="user input safe"/>
-            <button onClick={handleSubmitSafe}>Submit</button>
-            <p>{userInputSafeEval}</p>
+            <div>
+                <input type="checkbox" checked={isVulnerable} onChange={(e) => setIsVulnerable(e.target.checked)}>
+                </input>
+                <span>Enable XSS Vulnerability</span>
+            </div>
+            <div>
+                <h3>
+                    {isVulnerable ? "Unsafe malicious user information handling below" : "Safe user information handling below"}
+                </h3>
+                <p>Enter: javascript:window.location.href='#/evil-page'</p>
+                {isVulnerable ? (
+                <div>
+                    <input
+                        value={userInput}
+                        onChange={(event) => setUserInput(event.target.value)}
+                        placeholder="user input"/>
+                    <button onClick={handleSubmit}>Submit</button>
+                </div>) :
+                    (
+                    <div>
+                        <input
+                            value={userInputSafe}
+                            onChange={(event) => setUserInputSafe(event.target.value)}
+                            placeholder="user input safe"/>
+                        <button onClick={handleSubmitSafe}>Submit</button>
+                        <p>{userInputSafeEval}</p>
+                    </div>)
+                }
+            </div>
         </div>
     );
 }
