@@ -23,7 +23,10 @@ function XSSPage() {
     return (
         <div>
             <h1>Reflected XSS demonstration page</h1>
-            <p>Unsafe malicious user information handling below</p>
+            <p>
+                Description: Not sanitizing user input is not safe, as users can inject JavaScript code that can be executed in other users' browsers.
+            </p>
+            <h3>Unsafe malicious user information handling below</h3>
             <p>enter: javascript:window.location.href='#/evil-page'</p>
             <input
                 value={userInput}
@@ -31,7 +34,7 @@ function XSSPage() {
                 placeholder="user input"/>
             <button onClick={handleSubmit}>Submit</button>
 
-            <p>Safe user input handling below</p>
+            <h3>Safe user input handling below</h3>
             <p>enter: javascript:window.location.href='#/evil-page'</p>
             <input
                 value={userInputSafe}
